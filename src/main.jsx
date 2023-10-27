@@ -10,6 +10,11 @@ import Home from './Pages/Home';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Login/Register';
 import AuthProvider from './Provider/AuthProvider';
+import About from './Pages/About';
+import Services from './Pages/Services';
+import CheckOut from './Pages/CheckOut/CheckOut';
+import Bookings from './Pages/Bookings/Bookings';
+import PrivateRoute from './Provider/PrivateRoute/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -21,12 +26,30 @@ const router = createBrowserRouter([
         element: <Home></Home>
       },
       {
+        path: '/about',
+        element: <About></About>
+      },
+      {
+        path: '/services',
+        element: <Services></Services>
+      },
+      {
         path: '/login',
         element: <Login></Login>
       },
+
       {
         path: '/register',
         element: <Register></Register>
+      },
+      {
+        path: '/checkout/:id',
+        element: <PrivateRoute><CheckOut></CheckOut></PrivateRoute>,
+        loader: ({ params }) => fetch(`http://localhost:5000/services/${params.id}`)
+      },
+      {
+        path: '/myBookings',
+        element: <PrivateRoute><Bookings></Bookings></PrivateRoute>
       }
     ]
   },

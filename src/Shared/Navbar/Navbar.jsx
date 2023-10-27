@@ -1,16 +1,24 @@
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg'
+import { GrLogin, GrLogout } from "react-icons/gr";
+import { useContext } from 'react';
+import { AuthContext } from '../../Provider/AuthProvider';
+import { BsFillCarFrontFill } from "react-icons/bs";
 
 const Navbar = () => {
+    const { user, signOut } = useContext(AuthContext);
     const navItems =
         <>
             <li> <Link className='text-xl' to='/'>Home</Link></li>
-            <li> <Link className='text-xl' to='/about'>About</Link></li>
+            <li> <Link className='text-xl' to='/about'>About Us</Link></li>
             <li><Link className='text-xl' to='/services'>Services</Link></li>
             <li> <Link className='text-xl' to='/blog'>Blog</Link></li>
             <li><Link className='text-xl' to='/content'>Content</Link></li>
         </>
 
+    const handleSignOut = () => {
+        signOut();
+    }
     return (
         <div className='mb-10'>
             <div className="navbar">
@@ -24,7 +32,7 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <Link to='/'>
-                        <img src={logo} alt="" className='h-[80px] w-[80px]'/>
+                        <img src={logo} alt="" className='h-[80px] w-[80px]' />
                     </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -33,6 +41,20 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
+                    {
+                        user ?
+                            <>
+                                <Link to='/myBookings'><BsFillCarFrontFill className='text-2xl mr-3'></BsFillCarFrontFill></Link>
+                                <GrLogout onClick={handleSignOut} className='text-2xl mr-2'></GrLogout>
+
+                            </>
+                            :
+                            <>
+                                <Link to='/login'><BsFillCarFrontFill className='text-2xl mr-3'></BsFillCarFrontFill></Link>
+                                <Link to='/login'><GrLogin className='text-2xl mr-2'></GrLogin></Link>
+                            </>
+
+                    }
                     <a className="p-2 px-4 border-2 border-[#FF3811] rounded text-[#FF3811] font-bold">Appointment</a>
                 </div>
             </div>
