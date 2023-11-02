@@ -21,7 +21,7 @@ const CheckOut = () => {
 
         const order = { customerName: name, service: title, img, price, email, date, phone, service_id: _id, message }
         console.log(order);
-        fetch('http://localhost:5000/bookings', {
+        fetch('https://car-doctor-server-ruddy-seven.vercel.app/bookings', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

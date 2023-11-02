@@ -7,7 +7,7 @@ import Booking from "./Booking";
 const Bookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
-    const url = `http://localhost:5000/bookings?email=${user?.email}`;
+    const url = `https://car-doctor-server-ruddy-seven.vercel.app/bookings?email=${user?.email}`;
 
     useEffect(() => {
         // axios.get(url, { withCredentials: true })
@@ -24,7 +24,7 @@ const Bookings = () => {
     const handleDelete = (id) => {
         const del = confirm('Are you sure to delete?');
         if (del) {
-            fetch(`http://localhost:5000/bookings/${id}`, {
+            fetch(`https://car-doctor-server-ruddy-seven.vercel.app/bookings/${id}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
@@ -39,7 +39,7 @@ const Bookings = () => {
     }
 
     const handleConfirm = (id) => {
-        fetch(`http://localhost:5000/bookings/${id}`, {
+        fetch(`https://car-doctor-server-ruddy-seven.vercel.app/bookings/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
