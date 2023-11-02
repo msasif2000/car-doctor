@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
+import useServices from "../hooks/useServices";
 import Service from "./Service";
 
 const Services = () => {
-    const [services, setServices] = useState([]);
-    useEffect(() => {
-        fetch('http://localhost:5000/services')
-        .then(res => res.json())
-        .then(data => setServices(data))
-    }, [])
+    const services = useServices();
+     //const [services, setServices] = useState([]);
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/services')
+    //     .then(res => res.json())
+    //     .then(data => setServices(data))
+    // }, [])
     return (
         <div>
             <div className="space-y-4">
@@ -16,7 +18,7 @@ const Services = () => {
             </div>
             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-6 px-2">
                 {
-                    services.map(service => <Service key={service._id} service={service}></Service>)
+                    services?.map(service => <Service key={service._id} service={service}></Service>)
                 }
             </div>
         </div>

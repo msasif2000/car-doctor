@@ -15,11 +15,17 @@ import Services from './Pages/Services';
 import CheckOut from './Pages/CheckOut/CheckOut';
 import Bookings from './Pages/Bookings/Bookings';
 import PrivateRoute from './Provider/PrivateRoute/PrivateRoute';
+import ErrorPage from './Pages/ErrorPage';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: '/',

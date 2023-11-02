@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Booking from "./Booking";
+//import axios from "axios";
 
 
 const Bookings = () => {
@@ -9,12 +10,56 @@ const Bookings = () => {
     const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
     useEffect(() => {
-        fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            setBookings(data);
-        })
+        // axios.get(url, { withCredentials: true })
+        //     .then(res => {
+        //         setBookings(res.data);
+        //     })
+        fetch(url, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => {
+                setBookings(data);
+            })
     }, [url])
+
+    const handleDelete = (id) => {
+        const del = confirm('Are you sure to delete?');
+        if (del) {
+            fetch(`http://localhost:5000/bookings/${id}`, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.deletedCount > 0) {
+                        alert('Deleted Successfully')
+                        const remaining = bookings.filter(booking => booking._id !== id);
+                        setBookings(remaining);
+                    }
+                })
+        }
+    }
+
+    const handleConfirm = (id) => {
+        fetch(`http://localhost:5000/bookings/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ status: 'Approved' })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.modifiedCount > 0) {
+                    alert('Update Status Successfully!');
+                    const remaining = bookings.filter(booking => booking._id !== id);
+                    const updated = bookings.find(booking => booking._id === id);
+                    updated.status = 'Approved';
+                    const newBookings = [updated, ...remaining];
+                    setBookings(newBookings);
+                }
+            })
+
+    }
     //console.log(bookings);
     return (
         <div>
@@ -36,10 +81,10 @@ const Bookings = () => {
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody> 
+                    <tbody>
                         {
-                            bookings.map(booking => <Booking key={booking._id} booking= {booking}></Booking>)
-                        }                       
+                            bookings.map(booking => <Booking key={booking._id} booking={booking} handleDelete={handleDelete} handleConfirm={handleConfirm}></Booking>)
+                        }
                     </tbody>
                 </table>
             </div>

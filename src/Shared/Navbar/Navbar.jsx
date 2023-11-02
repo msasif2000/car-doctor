@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg'
 import { GrLogin, GrLogout } from "react-icons/gr";
-import { useContext } from 'react';
-import { AuthContext } from '../../Provider/AuthProvider';
 import { BsFillCarFrontFill } from "react-icons/bs";
+import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
-    const { user, signOut } = useContext(AuthContext);
+    
+    const {user, signOut} = useAuth();
     const navItems =
         <>
             <li> <Link className='text-xl' to='/'>Home</Link></li>
@@ -17,7 +17,9 @@ const Navbar = () => {
         </>
 
     const handleSignOut = () => {
-        signOut();
+        signOut()
+        .then(() => {})
+        .catch(error => console.log(error))
     }
     return (
         <div className='mb-10'>

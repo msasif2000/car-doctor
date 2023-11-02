@@ -1,22 +1,9 @@
 import PropTypes from 'prop-types';
 
-const Booking = ({ booking }) => {
-    const {_id,  customerName, service, img, email, date, phone, price } = booking
+const Booking = ({ booking, handleDelete, handleConfirm }) => {
+    const { _id, customerName, service, img, email, date, phone, price, status } = booking
 
-    const handleDelete = (id) => {
-        const processd = confirm('Are you sure to delete?');
-        if(processd){
-            fetch(`http://localhost:5000/bookings/${id}`, {
-                method: 'DELETE'
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.deletedCount > 0){
-                    alert('Deleted Successfully')
-                }
-            })
-        }
-    }
+
     return (
         <tr>
             <th>
@@ -46,7 +33,13 @@ const Booking = ({ booking }) => {
             <td>{email}</td>
             <td>{date}</td>
             <th>
-                <button className="btn btn-ghost btn-xs text-green-700 font-bold border-green-600 border-2">Approved</button>
+                {
+                    status === 'Approved' ?
+                        <span className='btn btn-ghost btn-xs text-green-700 font-bold border-green-600 border-2'>Approved</span>
+                        :
+                        <button onClick={() => handleConfirm(_id)} className="btn btn-ghost btn-xs text-white font-bold  bg-[#FF3811]">Pending</button>
+                }
+
             </th>
         </tr>
 
@@ -54,6 +47,8 @@ const Booking = ({ booking }) => {
 };
 
 Booking.propTypes = {
-    booking: PropTypes.object.isRequired
+    booking: PropTypes.object.isRequired,
+    handleDelete: PropTypes.func.isRequired,
+    handleConfirm: PropTypes.func.isRequired
 }
 export default Booking;
